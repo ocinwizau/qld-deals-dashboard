@@ -1,0 +1,183 @@
+{
+  "version": "1.0.0",
+  "flows": [
+    {
+      "name": "Welcome",
+      "triggers": [{"type": "conversation_started"}],
+      "nodes": [
+        {
+          "id": "welcome_node",
+          "name": "Welcome Message",
+          "onEnter": [
+            {"action": "createCard", "type": "text", "text": "👋 Hey! Welcome to Aqua Vue! 🐋 Hervey Bay's favourite beachfront cafe ☕🌊\n\nI can help you with:\n📍 Location & Hours\n🍽️ Menu\n🛒 Order Now\n📅 Book a Table\n☕ Today's Special\n❓ Ask a Question\n\nWhat would you like?"}
+          ],
+          "actions": [
+            {"action": "createQuickReply", "buttons": [
+              {"label": "📍 Location & Hours", "flow": "Location"},
+              {"label": "🍽️ View Menu", "flow": "Menu"},
+              {"label": "🛒 Order Now", "flow": "Order"},
+              {"label": "📅 Book a Table", "flow": "Book"},
+              {"label": "☕ Today's Special", "flow": "Special"},
+              {"label": "❓ Ask a Question", "flow": "Question"}
+            ]}
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Location",
+      "nodes": [
+        {
+          "id": "location_node",
+          "onEnter": [
+            {"action": "createCard", "text": "📍 We're at 415A Esplanade, Torquay — beachfront! 🌊\n\n🕒 Hours:\nMon-Fri: 6:30am-Midnight\nSat-Sun: 7am-Midnight"},
+            {"action": "createButton", "buttons": [
+              {"label": "📍 Open Maps", "url": "https://maps.google.com/?q=Aqua+Vue+Hervey+Bay"},
+              {"label": "☎️ Call", "url": "tel:0741255528"},
+              {"label": "🔙 Back", "flow": "Welcome"}
+            ]}
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Menu",
+      "nodes": [
+        {
+          "id": "menu_node",
+          "onEnter": [
+            {"action": "createCard", "text": "🍽️ Here's our menu! What are you after?"},
+            {"action": "createQuickReply", "buttons": [
+              {"label": "📄 Full Menu", "flow": "FullMenu"},
+              {"label": "🌱 Vegan", "flow": "Vegan"},
+              {"label": "🥐 Breakfast", "flow": "Breakfast"},
+              {"label": "☕ Coffee", "flow": "Coffee"},
+              {"label": "🔙 Back", "flow": "Welcome"}
+            ]}
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Coffee",
+      "nodes": [{"id": "coffee_node", "onEnter": [
+        {"action": "createCard", "text": "☕ Our coffee is a local favourite! 🐋\n\n⭐ Best: Flat White, Iced Latte, Cappuccino\n\nWant to order ahead?"},
+        {"action": "createQuickReply", "buttons": [
+          {"label": "🛒 Order Now", "flow": "Order"},
+          {"label": "📞 Call to Order", "url": "tel:0741255528"},
+          {"label": "🔙 Back", "flow": "Menu"}
+        ]}
+      ]}],
+    {
+      "name": "Breakfast",
+      "nodes": [{"id": "breakfast_node", "onEnter": [
+        {"action": "createCard", "text": "🥐 BREAKFAST ⭐\n\n• Big Breakfast — $18.90\n• Avocado Smash — $16.90\n• Pancakes — $14.90\n• Bacon & Eggs — $13.90\n\nWhat's your pick?"},
+        {"action": "createQuickReply", "buttons": [
+          {"label": "🛒 Order Now", "flow": "Order"},
+          {"label": "📅 Book Table", "flow": "Book"},
+          {"label": "🔙 Back", "flow": "Menu"}
+        ]}
+      ]}],
+    {
+      "name": "Vegan",
+      "nodes": [{"id": "vegan_node", "onEnter": [
+        {"action": "createCard", "text": "🌱 VEGAN ⭐\n\n• Avocado Smash\n• Veggie Bowl\n• Oat milk latte"},
+        {"action": "createQuickReply", "buttons": [
+          {"label": "🛒 Order Now", "flow": "Order"},
+          {"label": "🔙 Back", "flow": "Menu"}
+        ]}
+      ]}],
+    {
+      "name": "FullMenu",
+      "nodes": [{"id": "fullmenu_node", "onEnter": [
+        {"action": "createCard", "text": "📄 Full Menu: https://www.aquavue.com.au/"}
+      ]}],
+    {
+      "name": "Order",
+      "nodes": [{"id": "order_node", "onEnter": [
+        {"action": "createCard", "text": "🛒 Order ahead and skip the wait!"},
+        {"action": "createQuickReply", "buttons": [
+          {"label": "🛵 Uber Eats", "url": "https://www.ubereats.com/au/store/aqua-vue-beachfront-cafe/"},
+          {"label": "📱 Call to Order", "url": "tel:0741255528"},
+          {"label": "📍 Visit In-Store", "flow": "Location"},
+          {"label": "🔙 Back", "flow": "Welcome"}
+        ]}
+      ]}],
+    {
+      "name": "Book",
+      "nodes": [{"id": "book_node", "onEnter": [
+        {"action": "createCard", "text": "📅 Book a table! How many people?"},
+        {"action": "transition", "flow": "BookDate"}
+      ]}],
+    {
+      "name": "BookDate",
+      "nodes": [{"id": "bookdate_node", "onEnter": [
+        {"action": "createCard", "text": "Which date works for you?"},
+        {"action": "transition", "flow": "BookTime"}
+      ]}],
+    {
+      "name": "BookTime",
+      "nodes": [{"id": "booktime_node", "onEnter": [
+        {"action": "createCard", "text": "What time would you like?"},
+        {"action": "transition", "flow": "BookConfirm"}
+      ]}],
+    {
+      "name": "BookConfirm",
+      "nodes": [{"id": "bookconfirm_node", "onEnter": [
+        {"action": "createCard", "text": "🙌 Thanks! Your booking request received. We'll confirm via SMS/phone. See you soon! ☕🌟"},
+        {"action": "createQuickReply", "buttons": [{"label": "🔙 Home", "flow": "Welcome"}]}
+      ]}],
+    {
+      "name": "Special",
+      "nodes": [{"id": "special_node", "onEnter": [
+        {"action": "createCard", "text": "🔥 TODAY'S SPECIAL ⭐\n\n☕ Coffee + Pastry — $9.90 🥐\n\nLimited stock!"},
+        {"action": "createQuickReply", "buttons": [
+          {"label": "🛒 Order Now", "flow": "Order"},
+          {"label": "📍 Directions", "flow": "Location"},
+          {"label": "🔙 Back", "flow": "Welcome"}
+        ]}
+      ]}],
+    {
+      "name": "Question",
+      "nodes": [{"id": "question_node", "onEnter": [
+        {"action": "createCard", "text": "❓ Ask me anything! 💬\n\nWiFi? Pet-friendly? Gluten-free? Parking?"},
+        {"action": "createQuickReply", "buttons": [
+          {"label": "📞 Talk to Human", "flow": "Human"},
+          {"label": "🔙 Back", "flow": "Welcome"}
+        ]}
+      ]}],
+    {
+      "name": "FAQ",
+      "nodes": [{"id": "faq_node", "onEnter": [], "onReceive": [
+        {"condition": "text.includes('wifi')", "action": "createCard", "text": "Yes! Free WiFi 😊"},
+        {"condition": "text.includes('pet')", "action": "createCard", "text": "Yes! 🐶 Pets welcome!"},
+        {"condition": "text.includes('gluten')", "action": "createCard", "text": "Yes! 🌱 GF options!"},
+        {"condition": "text.includes('card')", "action": "createCard", "text": "Yes 💳 Cash, card, contactless!"},
+        {"condition": "text.includes('park')", "action": "createCard", "text": "Free parking! 🚗"},
+        {"condition": "text.includes('kid')", "action": "createCard", "text": "Yes! 👶 Kids eat free!"},
+        {"condition": "true", "action": "transition", "flow": "Human"}
+      ]}],
+    {
+      "name": "Human",
+      "nodes": [{"id": "human_node", "onEnter": [
+        {"action": "createCard", "text": "🤔 Let me get someone to help you! 😊"},
+        {"action": "createQuickReply", "buttons": [
+          {"label": "☎️ Call Café", "url": "tel:0741255528"},
+          {"label": "📧 Leave Message", "flow": "Message"},
+          {"label": "🔙 Back", "flow": "Welcome"}
+        ]}
+      ]}],
+    {
+      "name": "Message",
+      "nodes": [{"id": "message_node", "onEnter": [
+        {"action": "createCard", "text": "📧 Drop your message! Or call 07 4125 5528 ☎️"}
+      ]}],
+    {
+      "name": "LeadCapture",
+      "nodes": [{"id": "lead_node", "onEnter": [
+        {"action": "createCard", "text": "☕ Want 10% OFF your next coffee?\n\nDrop your number for deals! 🎉"}
+      ]}]
+    }
+  ],
+  "config": {"botName": "Aqua Vue Cafe Bot", "timezone": "Australia/Brisbane"}
+}
